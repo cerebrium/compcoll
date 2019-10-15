@@ -1,0 +1,12 @@
+body {
+    display: flex;
+    flex-direction: column;
+    background-color: black;
+    color: green;
+    width: 100vw;
+    justify-content: center;
+}
+
+#formOne {
+    justify-content: center;;
+}
