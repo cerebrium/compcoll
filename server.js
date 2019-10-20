@@ -10,6 +10,7 @@ app.set('view engine', 'ejs');
 // uses
 app.use(express.static('static'))
 app.use(layouts)
+app.use(express.urlencoded({extended:false}))
 
 // gets
 app.get(`/`, function(req, res) {
