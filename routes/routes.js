@@ -21,26 +21,32 @@ router.get(`/`, function(req, res) {
     })
 
 router.post(`/results`, function(req, res) {
+    res.redirect('/compcoll/results')
+    console.log('---------------------------------------------------------')
+    console.log('post')
+})
+
+router.get('/results', function(req, res) {
     let newsName = 'breitbart';
     let async_One = function(cb) {
         axios.get(newsSites[0])
             .then(function(response) {
-                let breitArrayOfHref = [];
-                let breitArrayOfTitle = [];
+                let newsArray = [];
+                let titleArray = [];
                 let checkerHref = response.data.match(/href="(\w|.)[^"]*"{1}/g);
                 let checkerTitle = response.data.match(/title="(\w|.)[^"]*"{1}/g);
                 checkerTitle.forEach(function(ele) {
-                    if (ele.includes(req.body)) {
-                        breitArrayOfTitle.push(ele);
+                    if (ele.includes(req.query.inputtext)) {
+                        titleArray.push(ele);
                     }
                 })
                 checkerHref.forEach(function(ele) {
-                    if (ele.includes(req.body)) {
-                        breitArrayOfHref.push(ele);
+                    if (ele.includes(req.query.inputtext)) {
+                        newsArray.push(ele);
                     }
                 })
                 
-                cb(null, breitArrayOfHref, breitArrayOfTitle)
+                cb(null, newsArray, titleArray, newsName)
             })
     }
 
@@ -48,21 +54,21 @@ router.post(`/results`, function(req, res) {
         let newsName = 'bbc';
         axios.get(newsSites[1])
             .then(function(response) {
-                let bbcArrayOfHref = [];
-                let bbcArrayOfTitle = [];
+                let newsArray = [];
+                let titleArray = [];
                 let checkerHref = response.data.match(/href="(\w|.)[^"]*"{1}/g);
                 let checkerTitle = response.data.match(/title="(\w|.)[^"]*"{1}/g);
                 checkerTitle.forEach(function(ele) {
-                    if (ele.includes(req.body)) {
-                        bbcArrayOfTitle.push(ele);
+                    if (ele.includes(req.query.inputtext)) {
+                        titleArray.push(ele);
                     }
                 })
                 checkerHref.forEach(function(ele) {
-                    if (ele.includes(req.body)) {
-                        bbcArrayOfHref.push(ele);
+                    if (ele.includes(req.query.inputtext)) {
+                        newsArray.push(ele);
                     }
                 })
-                cb(null, bbcArrayOfHref, bbcArrayOfTitle)
+                cb(null, newsArray, titleArray, newsName)
             })
     }
 
@@ -70,86 +76,74 @@ router.post(`/results`, function(req, res) {
         let newsName = 'nytimes';
         axios.get(newsSites[2])
             .then(function(response) {
-                let nyArrayOfHref = [];
-                let nyArrayOfTitle = [];
+                let newsArray = [];
+                let titleArray = [];
                 let checkerHref = response.data.match(/href="(\w|.)[^"]*"{1}/g);
                 let checkerTitle = response.data.match(/title="(\w|.)[^"]*"{1}/g);
                 checkerTitle.forEach(function(ele) {
-                    if (ele.includes(req.body)) {
-                        nyArrayOfTitle.push(ele);
+                    if (ele.includes(req.query.inputtext)) {
+                        titleArray.push(ele);
                     }
                 })
                 checkerHref.forEach(function(ele) {
-                    if (ele.includes(req.body)) {
-                        nyArrayOfHref.push(ele);
+                    if (ele.includes(req.query.inputtext)) {
+                        newsArray.push(ele);
                     }
                 })
-                cb(null, nyArrayOfHref, nyArrayOfTitle)
+                cb(null, newsArray, titleArray, newsName)
             })
     }
 
     let async_Four = function(cb) {
-        let newsName = 'breitbart';
+        let newsName = 'infowars';
         axios.get(newsSites[3])
             .then(function(response) {
-                let infoArrayOfHref = [];
-                let infoArrayOfTitle = [];
+                let newsArray = [];
+                let titleArray = [];
                 let checkerHref = response.data.match(/href="(\w|.)[^"]*"{1}/g);
                 let checkerTitle = response.data.match(/title="(\w|.)[^"]*"{1}/g);
                 checkerTitle.forEach(function(ele) {
-                    if (ele.includes(req.body)) {
-                        infoArrayOfTitle.push(ele);
+                    if (ele.includes(req.query.inputtext)) {
+                        titleArray.push(ele);
                     }
                 })
                 checkerHref.forEach(function(ele) {
-                    if (ele.includes(req.body)) {
-                        infoArrayOfHref.push(ele);
+                    if (ele.includes(req.query.inputtext)) {
+                        newsArray.push(ele);
                     }
                 })
-                cb(null, infoArrayOfHref, infoArrayOfTitle)
+                cb(null, newsArray, titleArray, newsName)
             })
     }
 
     let async_Five = function(cb) {
+        let newsName = 'foxnews';
         axios.get(newsSites[4])
         .then(function(response) {
-            let nbcArrayOfHref = [];
-            let nbcArrayOfTitle = [];
+            let newsArray = [];
+            let titleArray = [];
             let checkerHref = response.data.match(/href="(\w|.)[^"]*"{1}/g);
             let checkerTitle = response.data.match(/title="(\w|.)[^"]*"{1}/g);
             checkerTitle.forEach(function(ele) {
-                if (ele.includes(req.body)) {
-                    nbcArrayOfTitle.push(ele);
+                if (ele.includes(req.query.inputtext)) {
+                    titleArray.push(ele);
                 }
             })
             checkerHref.forEach(function(ele) {
-                if (ele.includes(req.body)) {
-                    nbcArrayOfHref.push(ele);
+                if (ele.includes(req.query.inputtext)) {
+                    newsArray.push(ele);
                 }
             })
-            cb(null, nbcArrayOfHref, nbcArrayOfTitle)
+            cb(null, newsArray, titleArray, newsName)
         })
     }
 
     async.series([async_One, async_Two, async_Three, async_Four, async_Five], function(err, results) {
-        db.article.findOrCreate({
-            where : { 
-                title : req.body.inputtext,
-            },
-            defaults : {
-                content : results
-                name : 
-            }
+        res.render('results', {
+            results : results,
+            websites : newsSites
         })
-        res.render('results')
+        })
     })
-    console.log('---------------------------------------------------------')
-    console.log('post')
-    res.redirect('/compcoll/results')
-})
-
-router.get('/results', function(req, res) {
-    res.render('results')
-})
 
 module.exports = router;
