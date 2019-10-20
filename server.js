@@ -19,6 +19,7 @@ app.get(`/`, function(req, res) {
 
 // app.uses
 app.use(`/compcoll`, require(`./routes/routes`))
+app.use(`/compcoll/twitter`, require(`./routes/twitterRoute`))
 // MIDDLE WARE
 // app.use(express.urlencoded({extended: false}))
 

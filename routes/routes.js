@@ -14,7 +14,6 @@ const newsSites = [
     
 // MY ASYNC DATA GATHERING
 
-
 ///////    Get Routes
 router.get(`/`, function(req, res) {
     res.render('scraper')
