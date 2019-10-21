@@ -140,7 +140,7 @@ router.get('/results', function(req, res) {
     async.series([async_One, async_Two, async_Three, async_Four, async_Five], function(err, results) {
         res.render('results', {
             results : results,
-            websites : newsSites
+            websites : newsSites,
         })
         })
     })

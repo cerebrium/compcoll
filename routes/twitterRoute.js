@@ -1,11 +1,11 @@
 const express = require('express');
 const router = express.Router();
-const db = require('../models');
 const passport = require('passport');
 const TwitterStrategy = require('passport-twitter').Strategy;
-const dotenv = require('dotenv');
+require('dotenv').config();
 const session = require('express-session');
 const morgan = require('morgan');
+const axios = require('axios');
 
 /// configuring oauth
 passport.use(new TwitterStrategy({
@@ -38,11 +38,18 @@ router.use(require('express-session')({ secret: 'keyboard cat', resave: true, sa
 router.use(passport.initialize());
 router.use(passport.session());
 
-
+// router.get('/', function(req,res) {
+//     res.render('twitterdisp')
+// })
 
 router.get('/', passport.authenticate('twitter', { failureRedirect: '/compcoll' }),
     function(req, res) {
+        axios.get('https://api.twitter.com/1.1/lists/subscribers.json?list_id=1130185227375038465&skip_status=true')
+        .then(function(response) {
+            console.log(response)
+        })
     // Successful authentication, redirect home.
         res.render('twitterdisp');
     });
+
     module.exports = router;
