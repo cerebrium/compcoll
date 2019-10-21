@@ -149,12 +149,19 @@ router.get('/results', function(req, res) {
         res.render('twitter/searchtwitter')
     })
 
-    router.get('/donald', function(req, res) {
-        axios.get('https://twitter.com/realDonaldTrump')
+    router.get('/displaytwitter', function(req, res) {
+        console.log(`https://twitter.com/${req.query.inputtext}`)
+        axios.get(`https://twitter.com/${req.query.inputtext}`)
         .then(function(results) {
             let checkerSpan = results.data.match(/<p class="TweetTextSize TweetTextSize--normal js-tweet-text tweet-text" lang="en" data-aria-label-part="0">(\w|.)[^<]*/g);
             console.log(checkerSpan)
-            res.render('twitter/displaytwitter', {results: checkerSpan});
+            res.render('twitter/displaytwitter', {
+                results: checkerSpan,
+                person: req.query.inputtext
+            });
+        }).catch(function(err) {
+            console.log(err)
+            res.redirect('/compcoll/searchtwitter')
         })
     })
 

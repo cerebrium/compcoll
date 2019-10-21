@@ -2,5 +2,5 @@
 
 <% results.forEach(function(ele) { %>
 <% let newer = ele.toString().replace(/<p class="TweetTextSize TweetTextSize--normal js-tweet-text tweet-text" lang="en" data-aria-label-part="0">/, '') %>
-    <p>Donald Says: <%= newer %></p>
+    <p><%= person %> Says: <%= newer %></p>
 <% }) %>
