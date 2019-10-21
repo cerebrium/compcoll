@@ -16,7 +16,7 @@ const newsSites = [
 
 ///////    Get Routes
 router.get(`/`, function(req, res) {
-    res.render('scraper')
+    res.render('news/scraper')
     })
 
 router.post(`/results`, function(req, res) {
@@ -138,10 +138,23 @@ router.get('/results', function(req, res) {
     }
 
     async.series([async_One, async_Two, async_Three, async_Four, async_Five], function(err, results) {
-        res.render('results', {
+        res.render('news/results', {
             results : results,
             websites : newsSites,
         })
+        })
+    })
+
+    router.get('/searchtwitter', function(req, res) {
+        res.render('twitter/searchtwitter')
+    })
+
+    router.get('/donald', function(req, res) {
+        axios.get('https://twitter.com/realDonaldTrump')
+        .then(function(results) {
+            let checkerSpan = results.data.match(/<p class="TweetTextSize TweetTextSize--normal js-tweet-text tweet-text" lang="en" data-aria-label-part="0">(\w|.)[^<]*/g);
+            console.log(checkerSpan)
+            res.render('twitter/displaytwitter', {results: checkerSpan});
         })
     })
 

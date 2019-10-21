@@ -33,7 +33,7 @@ app.use(`/auth`, require(`./routes/twitterRoute`))
 
 
 // listeners
-app.listen(3007, function() {
+app.listen(8080, function() {
     console.log('Server Is Running: CompCall')
 })
 

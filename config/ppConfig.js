@@ -8,7 +8,7 @@ const db = require('../models');
 passport.use(new TwitterStrategy({
     consumerKey: process.env.API_KEY,
     consumerSecret: process.env.API_SECRET_KEY,
-    callbackURL: "http://127.0.0.1:3007/auth/twitter/callback"
+    callbackURL: "http://127.0.0.1:8080/auth/twitter/callback"
 },
 function(token, tokenSecret, profile, cb) {
     // console.log("Access token:", token);
