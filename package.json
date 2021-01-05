@@ -19,7 +19,7 @@
   "homepage": "https://github.com/cerebrium/compcoll#readme",
   "dependencies": {
     "async": "^3.1.0",
-    "axios": "^0.19.0",
+    "axios": "^0.21.1",
     "cheerio": "^1.0.0-rc.3",
     "dotenv": "^8.2.0",
     "ejs": "^2.7.1",
